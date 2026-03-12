@@ -110,7 +110,7 @@
 
 <div class="wrapper">
     <header>
-        <h1>波斯納櫃台接待數位手冊</h1>
+        <h1>咖啡館櫃台接待手冊</h1>
     </header>
 
     <section>
@@ -118,13 +118,13 @@
         <div class="flowchart-container">
             <div class="mermaid">
                 graph TD
-                Start((訪客進店)) --> ID{身分判定}
-                ID -- 路過客 --> Reject[婉拒接待]
-                ID -- 老師/作者 --> Teacher[確認咖啡券/引導儲值]
-                ID -- 學員/會員 --> LINE{確認 LINE@}
+                Start((訪客進店)) --> [身分判定]
+                ID -- 路過客 --> [婉拒接待]
+                ID -- 老師/作者 -->[主動問候/咖啡券儲值]
+                ID -- 學員/會員/讀友 -->[主動問候/確認是否預約]
                 
-                LINE -- 未加/未預約 --> Add[引導掃碼預約/現場排位]
-                LINE -- 已預約 --> Service[依預約內容服務]
+                LINE -- 未預約 --> [引導掃碼預約/現場排位]
+                LINE -- 已預約 --> [依預約內容服務]
 
                 Service -- A類:補課 --> PayA[500元 / 輔限首次免費]
                 Service -- B類:智庫 --> PayB[500元 / 3H含飲品]
@@ -221,4 +221,5 @@
 </script>
 
 </body>
+
 </html>
