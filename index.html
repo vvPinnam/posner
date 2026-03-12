@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>波斯納咖啡館內部手冊</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #d35400;
+            --light-bg: #f8f9fa;
+            --border: #dee2e6;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        header {
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        h1 { color: var(--primary); margin: 0; font-size: 24px; }
+        
+        section { margin-bottom: 40px; }
+        h2 { 
+            color: var(--primary); 
+            font-size: 1.2rem; 
+            border-left: 4px solid var(--accent); 
+            padding-left: 10px; 
+            margin-bottom: 20px;
+        }
+
+        /* 流程圖滾動容器 */
+        .flowchart-container {
+            background: #fff;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow-x: auto; /* 手機版可橫向捲動 */
+        }
+
+        /* 表格樣式 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 12px;
+            text-align: left;
+        }
+        th { background-color: var(--light-bg); color: var(--primary); }
+
+        /* 搜尋與 QA 樣式 */
+        .search-box {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 15px 0;
+            z-index: 10;
+        }
+        #qaSearch {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .qa-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            display: block;
+        }
+        .qa-item:last-child { border-bottom: none; }
+        .q { font-weight: bold; color: var(--accent); display: block; margin-bottom: 5px; }
+        .a { color: #555; line-height: 1.5; font-size: 0.95rem; }
+        .tag {
+            font-size: 0.75rem;
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+
+        /* 手機版適配 */
+        @media (max-width: 600px) {
+            .wrapper { padding: 15px; }
+            td, th { padding: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <header>
+        <h1>波斯納櫃台接待數位手冊</h1>
+    </header>
+
+    <section>
+        <h2>接待判斷流程圖</h2>
+        <div class="flowchart-container">
+            <div class="mermaid">
+                graph TD
+                Start((訪客進店)) --> ID{身分判定}
+                ID -- 路過客 --> Reject[婉拒接待]
+                ID -- 老師/作者 --> Teacher[確認咖啡券/引導儲值]
+                ID -- 學員/會員 --> LINE{確認 LINE@}
+                
+                LINE -- 未加/未預約 --> Add[引導掃碼預約/現場排位]
+                LINE -- 已預約 --> Service[依預約內容服務]
+
+                Service -- A類:補課 --> PayA[500元 / 輔限首次免費]
+                Service -- B類:智庫 --> PayB[500元 / 3H含飲品]
+                Service -- 票券兌換 --> PayC[免費兌換 / 需預約]
+                Service -- 純自修 --> PayD[餐點費 / 限3H]
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>服務收費對應表</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>項目</th>
+                    <th>收費 (服務費)</th>
+                    <th>說明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>線上補課 (A)</td>
+                    <td>500 元 / 堂</td>
+                    <td>輔限內首次預約免費</td>
+                </tr>
+                <tr>
+                    <td>知識智庫 (B)</td>
+                    <td>500 元 / 3H</td>
+                    <td>含 iPad 使用 + 飲品一杯</td>
+                </tr>
+                <tr>
+                    <td>咖啡/學力券</td>
+                    <td>0 元</td>
+                    <td>需 LINE@ 預約，換飲品+智庫 3H</td>
+                </tr>
+                <tr>
+                    <td>老師/員工</td>
+                    <td>儲值/現金</td>
+                    <td>員工持券直接儲值 500 元</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>員工知識庫 (QA 搜尋)</h2>
+        <div class="search-box">
+            <input type="text" id="qaSearch" placeholder="🔍 輸入關鍵字搜尋（例如：老師、預約、發票...）" onkeyup="filterQA()">
+        </div>
+        <div id="qaList">
+            <div class="qa-item">
+                <span class="tag">接待</span>
+                <span class="q">Q. 如何稱呼收費名義？</span>
+                <span class="a">嚴禁說「低消」或「咖啡錢」。請統一稱呼為「場域服務費」。</span>
+            </div>
+            <div class="qa-item">
+                <span class="tag">身分</span>
+                <span class="q">Q. 老師來了怎麼辦？</span>
+                <span class="a">友善詢問是否有咖啡券可儲值，或現金儲值。強調「報電話即可點餐」的便利性。</span>
+            </div>
+            <div class="qa-item">
+                <span class="tag">數位</span>
+                <span class="q">Q. 學員沒預約直接來？</span>
+                <span class="a">先確認現場是否有位。若有位，引導加入 LINE@ 並說明下次請預約以確保位置。</span>
+            </div>
+            <div class="qa-item">
+                <span class="tag">功能</span>
+                <span class="q">Q. 儲值有什麼好處？</span>
+                <span class="a">之後點餐不需帶錢或帶券，直接報電話號碼即可快速結帳。</span>
+            </div>
+            <div class="qa-item">
+                <span class="tag">自修</span>
+                <span class="q">Q. 學生可以只看自己的書嗎？</span>
+                <span class="a">可以。學員/讀友預約自修，按餐飲消費計費，限時 3 小時。</span>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    // 初始化流程圖
+    mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+
+    // QA 搜尋過濾功能
+    function filterQA() {
+        const input = document.getElementById('qaSearch').value.toLowerCase();
+        const items = document.getElementsByClassName('qa-item');
+        
+        for (let i = 0; i < items.length; i++) {
+            const text = items[i].innerText.toLowerCase();
+            items[i].style.display = text.includes(input) ? "block" : "none";
+        }
+    }
+</script>
+
+</body>
+</html>
